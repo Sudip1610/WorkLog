@@ -1,0 +1,36 @@
+/* Reset some default margin and padding for the body */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the navigation bar */
+.navbar {
+    background-color: black;
+    color: white;
+    padding: 15px 0; /* Adjust padding as needed */
+}
+
+/* Center the logo and style it */
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 24px; /* Adjust font size as needed */
+}
+
+/* Responsive styles for smaller screens */
+@media only screen and (max-width: 600px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        margin-top: 10px; /* Adjust margin as needed */
+    }
+}

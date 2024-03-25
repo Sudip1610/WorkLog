@@ -1,0 +1,224 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel=stylesheet href="{% static 'css/signup.css' %}"> -->
+    <title>Registration Page</title>
+    <script>
+        function checkpassword() {
+            if (document.signup.pwd.value != document.signup.cpwd.value) {
+                alert('Password and Confirm Password field does not match');
+                document.cpwd.focus();
+                // hashing via Users in server-side
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        /* body {
+            font-family: "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f2f2f2;
+        } */
+
+        .container1 {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        header {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .input-box {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .column {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .gender-box {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .gender-option {
+            display: flex;
+        }
+
+        .gender {
+            margin-right: 20px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: black;
+            padding: 10px;
+            background-color: #ff0000; /* Red background color */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Spacing between error messages */
+            max-width: 300px; /* Maximum width for the error message */
+            margin: 0 auto; /* Center the error message horizontally */
+        }
+
+        .error p {
+            margin: 5px 0; /* Adjust spacing between paragraphs */
+            display: block; /* Each error message on a new line */
+            text-align: left; /* Left-align the error messages */
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .column {
+                flex-direction: column;
+            }
+
+            .gender {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container1">
+        <header>New Employee SignUp</header>
+        <form class="form" method="post" action="{% url 'registration' %}">
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->
+            {% if error %}
+                <div class="error">
+                    {{ error }}
+                </div>
+            {% endif %}
+            
+            <!-- Display form field errors -->
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="error">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="input-box">
+                <label>Full Name</label>
+                <input required="" placeholder="Enter full name" type="text" name="fullName">
+            </div>
+
+            <div class="column">
+                <div class="input-box">
+                    <label>DOB</label>
+                    <input required="" placeholder="Enter your date of birth" type="date" name="dob">
+                </div>
+                <div class="input-box">
+                    <label>Phone Number</label>
+                    <input required="" placeholder="Enter phone number" type="telephone" name="phonenumber">
+                </div>
+                <div class="input-box">
+                    <label>Email ID</label>
+                    <input required="" placeholder="Enter your email" type="text" name="email">
+                </div>
+            </div>
+
+            <div class="gender-box">
+                <label>Gender</label>
+                <div class="gender-option">
+                    <div class="gender">
+                        <input checked="" name="gender" id="check-male" type="radio" value="M">
+                        <label for="check-male">Male</label>
+                    </div>
+
+                    <div class="gender">
+                        <input name="gender" id="check-female" type="radio"  value="F">
+                        <label for="check-female">Female</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="input-box">
+                    <label>Date of Joining</label>
+                    <input required="" placeholder="Enter your date of joining" type="date" name="doj">
+                </div>
+                <div class="input-box">
+                    <label>EmployeeID</label>
+                    <input required="" placeholder="Enter your employee ID" type="text" name="empID">
+                </div>
+                <div class="input-box">
+                    <label>Department</label>
+                    <input required="" placeholder="Enter your department" type="text" name="empDept">
+                </div>
+                <div class="input-box">
+                    <label>Designation</label>
+                    <input required="" placeholder="Enter your designation" type="text" name="designation">
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="input-box">
+                    <label>Password</label>
+                    <input required="" placeholder="Enter your password" type="password" name="password">
+                </div>
+                <div class="input-box">
+                    <label>Confirm password</label>
+                    <input required="" placeholder="Enter your password again" type="password" name="confirm_password">
+                </div>
+            </div>
+            
+            <div class="gender-box">
+                <button type="submit">Submit</button>
+            </div>
+        
+        </form>
+    </section>
+
+</body>

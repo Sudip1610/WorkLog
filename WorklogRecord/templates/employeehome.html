@@ -1,0 +1,179 @@
+<!-- employee_home.html -->
+{% include 'header.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Home Page</title>
+    <style>
+      .tab {
+          /* display: block; */
+          margin: auto;
+          width: 500px;
+          padding: 50px;
+      }
+
+      #table-head {
+          text-align: center;
+      }
+
+      .gridlog {
+          margin: auto;
+          padding: 5px;
+          margin: auto;
+      }
+
+      table {
+          border-collapse: collapse;
+      }
+
+      th,
+      td {
+          border: 1px solid black;
+          padding: 8px;
+      }
+  </style>
+</head>
+<body>
+    <!-- <h1>Employee Home Page</h1> -->
+    <div style="position: absolute; top: 10px; right: 10px;">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div>
+        <h2>Employee Details</h2>
+        {% if form.instance.id %}
+            <p>Employee Name: {{ form.instance.name }}</p>
+            <p>Designation: {{ form.instance.designation }}</p>
+            <p>Project: {{ form.instance.project }}</p>
+            <p>Assigned On: {{ form.instance.assigned_on }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <p>
+                    Completion Date: 
+                    <input type="date" name="completion_date" value="{{ form.instance.completion_date|date:'Y-m-d' }}">
+                </p>
+                <button type="submit">Update Completion Date</button>
+            </form>
+        {% endif %}
+    </div>
+    {% if not data_fetched %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Error:</strong> {{ form.errors }}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+    {% endif %}
+    <div class="grid-log" style="margin-top: 20px;">
+      <span id="log-head" class="text-center fw-semibold h4 d-block m-auto">WORKLOG ENTRY FOR/BY EMPLOYEE</span>
+      <table class="table table-hover table-striped" style="margin-top: 20px;">
+          <thead>
+              <tr>
+                  <th>Time Slot/ Day</th>
+                  {% for day in weekdays %}
+                  <th>{{ day }}</th>
+                  {% endfor %}
+              </tr>
+          </thead>
+          <tbody>
+              {% for time_slot in time_slots %}
+              <tr>
+                  <td>{{ time_slot }}</td>
+                  {% for day in weekdays %}
+                  <td>
+                      {% for schedule in schedules %}
+                          {% if schedule.day_of_week == day and schedule.time_slot == time_slot %}
+                              {{ schedule.work_description }}
+                          {% endif %}
+                      {% endfor %}
+                  </td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+          </tbody>
+           <tr>
+              <td>10.00-11.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>11.00-12.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>12.00-13.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>13.00-14.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>14.00-15.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>15.00-16.00</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
+          <tr>
+            <td>16.00-17.00</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>17.00-18.00</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+       </table>
+  </div>
+  <form method="post" action="" style="margin-top: 20px;">
+      {% csrf_token %}
+      <button type="submit" name="preview">Preview</button>
+      <button type="submit" name="save">Save</button>
+  </form>
+</body>
+</html>
+

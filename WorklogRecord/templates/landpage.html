@@ -1,0 +1,61 @@
+{% include 'header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #mainbox {
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 90px;
+        }
+
+        #newemp {
+            display: block;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .messages {
+            list-style-type: none;
+            padding: 10px;
+            background-color: #4CAF50; /* Green background color */
+            color: white; /* White text color */
+            text-align: center; /* Center-align the messages */
+            border-radius: 5px; /* Rounded corners */
+        }
+    </style>
+
+
+</head>
+
+<body>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <a href="{% url 'registration' %}">
+        <button id="newemp" class="btn btn-primary">New Employee SignUp</button>
+    </a>
+
+    <div id="mainbox">
+        <div class="card" style="width: 18rem">
+            <!-- <img src="\static\images\EmployeeLogin.jpg" class="card-img-top" alt="..." /> -->
+            <div class="card-body buttons">
+                <a href="{% url 'employeelogin' %}" class="btn btn-primary">Employee Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
