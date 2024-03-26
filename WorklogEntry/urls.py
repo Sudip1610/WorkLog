@@ -27,4 +27,5 @@ urlpatterns = [
     path('employeehome', employee_home, name='employeehome'),
     path('employeepreview', employeepreview, name='employeepreview'),
     path('adminlogin', adminlogin, name='adminlogin'),
+    path('employees/<str:name>/', employeedetail, name='employeedetail'),
 ]   

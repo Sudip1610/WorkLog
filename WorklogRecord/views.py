@@ -72,6 +72,7 @@ def employeelogin(request):
         print(employee)
         print(employee.password)
         print(employee.fullName)
+        print(employee.isAdmin)
         # print(check_password(password, employee.password))
 
         if employee is not None:
@@ -83,6 +84,8 @@ def employeelogin(request):
                 request.session['fullName'] = employee.fullName 
                 # login(request, employee)
                 # Redirect to the dashboard or any other page
+                if (employee.isAdmin):
+                    return redirect('/adminlogin')
                 return redirect('/employeehome')  # Change 'dashboard' to your desired URL name
             else:
                 error = "Invalid password. Please try again."
@@ -121,8 +124,24 @@ def Form(request):
             form = previewForm()
     return render(request, 'employeehome.html', {'form': form})
 
+# def adminlogin(request):
+#     return render(request, 'adminlogin.html')
+
 def adminlogin(request):
-    return render(request, 'adminlogin.html')
+    employees = EmployeeWorkDetail.objects.all()
+    return render(request, 'adminlogin.html', {'employees': employees})
+
+def employeedetail(request, name):
+    today = datetime.date.today()
+    start_of_week = today - datetime.timedelta(days=today.weekday())
+    weekdays = [start_of_week + datetime.timedelta(days=i) for i in range(5)]
+
+    days = Day.objects.filter(day_of_week__in=weekdays).order_by('day_of_week')
+    time_slots = TimeSlot.objects.all().order_by('start_time')
+
+    employee = EmployeeWorkDetail.objects.get(name=name)
+
+    return render(request, 'employeedetail.html', { 'employee': employee, 'data_fetched': EmployeeWorkDetail.objects.filter(name=name).exists(), 'days': days, 'time_slots': time_slots, 'weekdays': weekdays })
 
 # def employee_home(request):
 #     print('Hello')
